@@ -42,7 +42,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-700 p-4">
       
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all transform">
+      <div className="bg-white p-12 rounded-2xl shadow-2xl w-full max-w-md transition-all transform">
         
         <div className="text-center mb-8">
           <span className="text-4xl">🔐</span>
@@ -92,7 +92,7 @@ export default function LoginPage() {
       </div>
       
       {/* Footer */}
-      <div className="absolute bottom-6 text-white/50 text-xs">
+      <div className="absolute bottom-4 text-white/50 text-xs">
         Authorized Personnel Only
       </div>
     </div>

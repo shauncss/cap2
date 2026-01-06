@@ -14,28 +14,38 @@ export default function Navbar() {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex gap-6">
+      <div className="flex gap-8">
+        
+        <Link 
+          to="/tv" 
+          target="_blank" 
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-transparent font-semibold text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all"
+        >
+          📺 TV Display
+        </Link>
+        
         <Link 
           to="/" 
-          className={`font-semibold hover:text-blue-600 ${location.pathname === '/' ? 'text-blue-600' : 'text-gray-500'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
+            location.pathname === '/' 
+              ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-sm' 
+              : 'border-transparent text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200'
+          }`}
         >
           🖥️ Kiosk
         </Link>
         
         <Link 
-          to="/tv" 
-          target="_blank" // Opens TV in new tab (Pro tip!)
-          className="font-semibold text-gray-500 hover:text-blue-600"
-        >
-          📺 TV Display
-        </Link>
-
-        <Link 
           to="/login" 
-          className={`font-semibold hover:text-blue-600 ${location.pathname.startsWith('/admin') || location.pathname === '/login' ? 'text-blue-600' : 'text-gray-500'}`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
+            location.pathname.startsWith('/admin') || location.pathname === '/login'
+              ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-sm'
+              : 'border-transparent text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200'
+          }`}
         >
           🔐 Staff Login
         </Link>
+
       </div>
     </nav>
   );
