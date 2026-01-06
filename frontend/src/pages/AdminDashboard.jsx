@@ -84,7 +84,7 @@ export default function AdminDashboard() {
   if (loading) return <div className="h-screen flex items-center justify-center bg-indigo-600 text-white font-bold">Loading...</div>;
 
   return (
-    // FIX: Fixed height container (100vh - 80px) and overflow hidden
+    // FIX 1: Exact height calculation [100vh - 80px]
     <div className="h-[calc(100vh-80px)] bg-gradient-to-br from-blue-500 to-indigo-700 flex flex-col overflow-hidden">
       
       {/* Internal Navbar for Dashboard */}

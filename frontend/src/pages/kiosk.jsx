@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
 
 export default function Kiosk() {
-  // Added new fields with default values for vitals
   const [formData, setFormData] = useState({
     name: "",
-    dob: "",
+    dob: "", // We will build this from the 3 dropdowns
     phone: "",
     symptoms: "",
     temperature: "36.5",
@@ -14,8 +13,20 @@ export default function Kiosk() {
     heartRate: "75"
   });
   
+  // Separate states for the DOB dropdowns
+  const [dobDay, setDobDay] = useState("");
+  const [dobMonth, setDobMonth] = useState("");
+  const [dobYear, setDobYear] = useState("");
+
   const [ticket, setTicket] = useState(null);
   const [error, setError] = useState("");
+
+  // Update main formData whenever the dropdowns change
+  useEffect(() => {
+    if (dobDay && dobMonth && dobYear) {
+      setFormData(prev => ({ ...prev, dob: `${dobYear}-${dobMonth}-${dobDay}` }));
+    }
+  }, [dobDay, dobMonth, dobYear]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,15 +37,15 @@ export default function Kiosk() {
     if (!formData.name.trim()) return;
 
     try {
-      // Note: Backend must be updated to accept these new fields to save them
       const res = await axios.post(`${API_URL}/api/queue/add`, formData);
-      
       setTicket(res.data);
-      // Reset form to defaults
+      
+      // Reset form
       setFormData({
         name: "", dob: "", phone: "", symptoms: "",
         temperature: "36.5", spo2: "98", heartRate: "75"
       });
+      setDobDay(""); setDobMonth(""); setDobYear(""); // Reset dropdowns
       setError("");
 
       setTimeout(() => {
@@ -47,11 +58,22 @@ export default function Kiosk() {
     }
   };
 
+  // Helper arrays for Date Dropdowns
+  const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
+  const months = [
+    { val: '01', label: 'Jan' }, { val: '02', label: 'Feb' }, { val: '03', label: 'Mar' },
+    { val: '04', label: 'Apr' }, { val: '05', label: 'May' }, { val: '06', label: 'Jun' },
+    { val: '07', label: 'Jul' }, { val: '08', label: 'Aug' }, { val: '09', label: 'Sep' },
+    { val: '10', label: 'Oct' }, { val: '11', label: 'Nov' }, { val: '12', label: 'Dec' }
+  ];
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 100 }, (_, i) => (currentYear - i).toString());
+
   return (
-    // FIX 1: Fixed Height to prevent Main Page scrolling (100vh - 80px Navbar)
+    // FIX 1: Exact height calculation [100vh - 80px Navbar]
     <div className="h-[calc(100vh-80px)] bg-gradient-to-br from-blue-500 to-indigo-700 flex flex-col items-center justify-center p-4 overflow-hidden">
       
-      {/* Container: Added max-h-full and overflow-auto so ONLY the card scrolls if needed */}
+      {/* Scrollable Container for the card only */}
       <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-y-auto max-h-full p-6 text-center transition-all scrollbar-hide">
         
         {ticket ? (
@@ -84,19 +106,45 @@ export default function Kiosk() {
                 <input 
                   type="text" name="name" required
                   className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
-                  placeholder="e.g. Lim Wei Ming"
+                  placeholder="e.g. John Doe"
                   value={formData.name} onChange={handleChange}
                 />
               </div>
 
-              {/* DOB */}
-              <div>
+              {/* FIX 2: IMPROVED DATE OF BIRTH (3 Dropdowns) */}
+              <div className="md:col-span-1">
                 <label className="block text-gray-700 font-bold mb-1 ml-1 text-sm">Date of Birth</label>
-                <input 
-                  type="date" name="dob" required
-                  className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
-                  value={formData.dob} onChange={handleChange}
-                />
+                <div className="flex gap-2">
+                  {/* Day */}
+                  <select 
+                    required 
+                    className="w-1/3 p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
+                    value={dobDay} onChange={(e) => setDobDay(e.target.value)}
+                  >
+                    <option value="">Day</option>
+                    {days.map(d => <option key={d} value={d}>{d}</option>)}
+                  </select>
+
+                  {/* Month */}
+                  <select 
+                    required 
+                    className="w-1/3 p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
+                    value={dobMonth} onChange={(e) => setDobMonth(e.target.value)}
+                  >
+                    <option value="">Month</option>
+                    {months.map(m => <option key={m.val} value={m.val}>{m.label}</option>)}
+                  </select>
+
+                  {/* Year */}
+                  <select 
+                    required 
+                    className="w-1/3 p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
+                    value={dobYear} onChange={(e) => setDobYear(e.target.value)}
+                  >
+                    <option value="">Year</option>
+                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                  </select>
+                </div>
               </div>
 
               {/* Phone */}
@@ -132,7 +180,7 @@ export default function Kiosk() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-600 font-bold mb-1 text-xs">Heart Rate (bpm)</label>
+                  <label className="block text-gray-600 font-bold mb-1 text-xs">Heart Rate</label>
                   <input 
                     type="number" name="heartRate"
                     className="w-full p-2 border border-blue-200 rounded-lg focus:border-blue-500 text-center font-bold text-lg"
@@ -144,7 +192,7 @@ export default function Kiosk() {
 
             {/* Symptoms */}
             <div className="mb-6">
-              <label className="block text-gray-700 font-bold mb-1 ml-1 text-sm">Symptoms / Reason for Visit</label>
+              <label className="block text-gray-700 font-bold mb-1 ml-1 text-sm">Symptoms / Reason</label>
               <textarea 
                 name="symptoms" rows="2"
                 className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
