@@ -84,7 +84,7 @@ export default function Kiosk() {
                 <input 
                   type="text" name="name" required
                   className="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none bg-gray-50"
-                  placeholder="e.g. John Doe"
+                  placeholder="e.g. Lim Wei Ming"
                   value={formData.name} onChange={handleChange}
                 />
               </div>

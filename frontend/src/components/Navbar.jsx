@@ -18,7 +18,7 @@ export default function Navbar() {
         <Link 
           to="/tv" 
           target="_blank" 
-          className="mr-12 flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-transparent font-semibold text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all"
+          className="mr-24 flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-transparent font-semibold text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all"
         >
           📺 TV Display
         </Link>
