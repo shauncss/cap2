@@ -13,7 +13,7 @@ const db = require('./db/knex');
 
 async function seedAdmin() {
     const username = 'admin';
-    const plainPassword = 'password123'; // You can change this later
+    const plainPassword = 'password123'; 
 
     try {
         console.log("1. Hashing password...");

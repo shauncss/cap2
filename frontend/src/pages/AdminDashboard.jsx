@@ -84,37 +84,36 @@ export default function AdminDashboard() {
   if (loading) return <div className="h-screen flex items-center justify-center bg-indigo-600 text-white font-bold">Loading...</div>;
 
   return (
-    // FIX 1: Exact height calculation [100vh - 80px]
-    <div className="h-[calc(100vh-80px)] bg-gradient-to-br from-blue-500 to-indigo-700 flex flex-col overflow-hidden">
+    // FIX: Overflow Hidden ensures the page never scrolls, only inner content if needed
+    <div className="h-[calc(100vh-80px)] w-full bg-gradient-to-br from-blue-500 to-indigo-700 flex flex-col overflow-hidden">
       
-      {/* Internal Navbar for Dashboard */}
-      <nav className="bg-white/95 backdrop-blur-sm shadow-md px-8 py-4 flex justify-between items-center z-40 shrink-0">
-        <h1 className="text-2xl font-extrabold text-indigo-700 flex items-center gap-2">
+      <nav className="bg-white/95 backdrop-blur-sm shadow-md px-6 py-3 flex justify-between items-center z-40 shrink-0 h-16">
+        <h1 className="text-xl font-extrabold text-indigo-700 flex items-center gap-2">
           👨‍⚕️ Admin Panel
         </h1>
-        <button onClick={handleLogout} className="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition">
+        <button onClick={handleLogout} className="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition text-sm">
           Logout
         </button>
       </nav>
 
-      {/* Main Content: Auto overflow if content is too tall */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex-1 p-4 md:p-6 w-full max-w-7xl mx-auto overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
           
           {/* LEFT COLUMN */}
-          <div className="space-y-6">
+          <div className="flex flex-col gap-6 h-full overflow-hidden">
+            
             {/* Card A: Current Status */}
-            <div className="bg-white p-8 rounded-2xl shadow-2xl border-t-8 border-green-500 text-center transform transition hover:scale-[1.01]">
-              <h2 className="text-gray-400 font-bold uppercase tracking-widest text-sm mb-2">Currently Serving</h2>
-              <div className="py-4">
-                <div className="text-5xl font-black text-gray-800 h-16 truncate">
+            <div className="bg-white p-6 rounded-2xl shadow-2xl border-t-8 border-green-500 text-center flex-1 flex flex-col justify-center transform transition hover:scale-[1.01]">
+              <h2 className="text-gray-400 font-bold uppercase tracking-widest text-xs mb-2">Currently Serving</h2>
+              <div className="py-2 flex-1 flex flex-col justify-center">
+                <div className="text-5xl lg:text-6xl font-black text-gray-800 truncate">
                   {currentPatient ? currentPatient.patient_name : "No One"}
                 </div>
-                <p className="text-indigo-500 font-bold mt-2">
+                <p className="text-indigo-500 font-bold mt-2 text-lg">
                   {currentPatient ? `Ticket #${currentPatient.id}` : "Ready for next patient"}
                 </p>
               </div>
-              <div className="flex gap-4 mt-6">
+              <div className="flex gap-3 mt-4">
                 {currentPatient && (
                   <button onClick={handleComplete} className="flex-1 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-lg shadow-sm border border-gray-300 transition">
                     ☕ Pause
@@ -127,9 +126,9 @@ export default function AdminDashboard() {
             </div>
 
             {/* Card B: Manual Add */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
-              <h3 className="font-bold text-gray-700 mb-4 border-b pb-2">Manual Entry</h3>
-              <form onSubmit={handleAddPatient} className="flex gap-3">
+            <div className="bg-white p-5 rounded-2xl shadow-lg shrink-0">
+              <h3 className="font-bold text-gray-700 mb-3 border-b pb-2 text-sm">Manual Entry</h3>
+              <form onSubmit={handleAddPatient} className="flex gap-2">
                 <input 
                   type="text" placeholder="Patient Name" 
                   className="flex-1 p-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none transition bg-gray-50"
@@ -140,19 +139,19 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: STATS */}
-          <div className="grid grid-cols-1 gap-6 content-start">
-            <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center justify-between">
-              <div><p className="text-gray-400 text-xs font-bold uppercase">Total Patients</p><p className="text-4xl font-black text-gray-800">{stats.total}</p></div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">📊</div>
+          {/* RIGHT COLUMN */}
+          <div className="flex flex-col gap-4 h-full overflow-hidden">
+            <div className="bg-white p-6 rounded-2xl shadow-xl flex-1 flex items-center justify-between">
+              <div><p className="text-gray-400 text-xs font-bold uppercase">Total Patients</p><p className="text-5xl font-black text-gray-800">{stats.total}</p></div>
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-3xl">📊</div>
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center justify-between">
-              <div><p className="text-gray-400 text-xs font-bold uppercase">Waiting Now</p><p className="text-4xl font-black text-gray-800">{stats.pending}</p></div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-2xl">⏳</div>
+            <div className="bg-white p-6 rounded-2xl shadow-xl flex-1 flex items-center justify-between">
+              <div><p className="text-gray-400 text-xs font-bold uppercase">Waiting Now</p><p className="text-5xl font-black text-gray-800">{stats.pending}</p></div>
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-3xl">⏳</div>
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center justify-between">
-              <div><p className="text-gray-400 text-xs font-bold uppercase">Avg Wait Time</p><p className="text-4xl font-black text-gray-800">{stats.avg_wait} <span className="text-lg text-gray-400 font-medium">min</span></p></div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">⏱️</div>
+            <div className="bg-white p-6 rounded-2xl shadow-xl flex-1 flex items-center justify-between">
+              <div><p className="text-gray-400 text-xs font-bold uppercase">Avg Wait Time</p><p className="text-5xl font-black text-gray-800">{stats.avg_wait} <span className="text-xl text-gray-400 font-medium">min</span></p></div>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-3xl">⏱️</div>
             </div>
           </div>
 
