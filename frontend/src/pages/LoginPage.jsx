@@ -40,36 +40,42 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      <div className="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border border-gray-700">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-700 p-4">
+      
+      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all transform hover:scale-[1.01]">
         
-        <h2 className="text-3xl font-bold text-center mb-6 text-blue-400">Staff Login</h2>
+        <div className="text-center mb-8">
+          <span className="text-4xl">🔐</span>
+          <h2 className="text-3xl font-extrabold text-gray-800 mt-2">Staff Access</h2>
+          <p className="text-gray-500 text-sm mt-1">Please log in to manage the queue.</p>
+        </div>
 
-        {/* ERROR MESSAGE BOX */}
         {error && (
-          <div className="bg-red-500/20 text-red-300 p-3 rounded mb-4 text-center border border-red-500/50">
+          <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-6 text-center text-sm font-bold border border-red-200">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-400 mb-1">Username</label>
+            <label className="block text-gray-700 font-bold mb-2 text-sm uppercase tracking-wide">Username</label>
             <input 
               type="text" 
               name="username"
-              className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 outline-none text-white"
+              className="w-full p-4 rounded-xl bg-gray-50 border-2 border-gray-100 focus:border-blue-500 outline-none text-gray-800 font-medium transition"
+              placeholder="Enter your username"
               onChange={handleChange}
               required 
             />
           </div>
 
           <div>
-            <label className="block text-gray-400 mb-1">Password</label>
+            <label className="block text-gray-700 font-bold mb-2 text-sm uppercase tracking-wide">Password</label>
             <input 
               type="password" 
               name="password"
-              className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 outline-none text-white"
+              className="w-full p-4 rounded-xl bg-gray-50 border-2 border-gray-100 focus:border-blue-500 outline-none text-gray-800 font-medium transition"
+              placeholder="••••••••"
               onChange={handleChange}
               required 
             />
@@ -77,12 +83,17 @@ export default function LoginPage() {
 
           <button 
             type="submit" 
-            className="w-full py-3 mt-4 bg-blue-600 hover:bg-blue-500 rounded font-bold text-lg transition-all shadow-lg hover:shadow-blue-500/50"
+            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg shadow-lg hover:shadow-xl transition-transform transform active:scale-95"
           >
             Sign In
           </button>
         </form>
 
+      </div>
+      
+      {/* Footer */}
+      <div className="absolute bottom-6 text-white/50 text-xs">
+        Authorized Personnel Only
       </div>
     </div>
   );
