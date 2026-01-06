@@ -1,20 +1,30 @@
 import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar'; // <--- Import the new Navbar
 
-// 1. IMPORT ALL YOUR PAGES HERE
-import Dashboard from './pages/Dashboard';       // The Main Home Page
-import TvDisplay from './pages/TvDisplay';       // The TV Screen
-import AdminDashboard from './pages/AdminDashboard'; // 
-import LoginPage from './pages/LoginPage';       // The Login Page
+// Pages
+import Kiosk from './pages/kiosk';
+import LoginPage from './pages/LoginPage';
+import AdminDashboard from './pages/AdminDashboard';
+import TvDisplay from './pages/TvDisplay';
 
 function App() {
   return (
-    <Routes>
-       {/* 2. DEFINE THE ROUTES */}
-       <Route path="/" element={<Dashboard />} />
-       <Route path="/tv" element={<TvDisplay />} />
-       <Route path="/admin" element={<AdminDashboard />} />
-       <Route path="/login" element={<LoginPage />} />
-    </Routes>
+    <>
+      {/* Navbar sits outside Routes so it shows on every page (except TV) */}
+      <Navbar />
+
+      <Routes>
+        {/* 1. Landing Page is now the KIOSK */}
+        <Route path="/" element={<Kiosk />} />
+
+        {/* 2. TV Display */}
+        <Route path="/tv" element={<TvDisplay />} />
+
+        {/* 3. Staff Area */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </>
   );
 }
 
