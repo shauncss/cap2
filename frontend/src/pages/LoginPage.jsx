@@ -90,11 +90,6 @@ export default function LoginPage() {
         </form>
 
       </div>
-      
-      {/* Footer */}
-      <div className="absolute bottom-4 text-white/50 text-xs">
-        Authorized Personnel Only
-      </div>
     </div>
   );
 }

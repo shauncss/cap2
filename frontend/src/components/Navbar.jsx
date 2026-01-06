@@ -7,7 +7,7 @@ export default function Navbar() {
   if (location.pathname === '/tv') return null;
 
   return (
-    <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center relative z-50">
+    <nav className="bg-white shadow-md px-8 py-2 flex justify-between items-center relative z-50">
       {/* Brand / Logo */}
       <div className="text-xl font-bold text-blue-600 flex items-center gap-2">
         🏥 <span className="hidden sm:inline">Clinic Queue System</span>
