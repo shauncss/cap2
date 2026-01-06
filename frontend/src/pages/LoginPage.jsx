@@ -42,7 +42,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-700 p-4">
       
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all transform hover:scale-[1.01]">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all transform">
         
         <div className="text-center mb-8">
           <span className="text-4xl">🔐</span>
