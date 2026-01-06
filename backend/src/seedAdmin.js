@@ -1,38 +1,34 @@
 require('dotenv').config({ path: '../.env' });
-
 const bcrypt = require('bcryptjs');
 const db = require('./db/knex');
 
 async function seedAdmin() {
-    // === CHANGE ADMIN ID AND PASSWORD HERE ===
-    const username = 'admin';  // Change this to change the ID
-    const plainPassword = '123'; // Change this to change the Password
-    // =========================================
+    // === SETTINGS ===
+    const username = 'admin';  
+    const plainPassword = '123'; 
+    // ================
 
     try {
-        console.log(`1. Hashing password '${plainPassword}'...`);
+        console.log(`1. Deleting old '${username}' if exists...`);
+        // FIX: Delete the user first so we can recreate them with the new password
+        await db('users').where({ username: username }).del();
+
+        console.log(`2. Hashing new password '${plainPassword}'...`);
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-        console.log(`2. Inserting user '${username}' into database...`);
-        
-        // This will try to insert. If 'admin' exists, it skips due to the error catch below.
+        console.log(`3. Creating new user '${username}'...`);
         await db('users').insert({
             username: username,
             password: hashedPassword,
             role: 'admin'
         });
 
-        console.log(`SUCCESS: User '${username}' created!`);
-        console.log(`You can now log in with password: ${plainPassword}`);
+        console.log(`SUCCESS! User '${username}' has been reset.`);
+        console.log(`New Password: ${plainPassword}`);
         process.exit();
 
     } catch (error) {
-        if (error.code === '23505') { // Unique Violation
-            console.log(`User '${username}' already exists.`);
-            console.log("To reset the password, please delete this user from the database first.");
-        } else {
-            console.error("Error creating user:", error);
-        }
+        console.error("Error:", error);
         process.exit(1);
     }
 }
